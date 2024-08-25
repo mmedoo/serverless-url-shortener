@@ -1,0 +1,22 @@
+{
+	"scripts": {
+		"start": "node server.js",
+		"postinstall": "npm i -g sqlite3@5.0.0"
+	},
+	"dependencies": {
+		"@supabase/supabase-js": "^2.45.2",
+		"dotenv": "^16.4.5",
+		"ejs": "^3.1.10",
+		"express": "^4.19.2",
+		"morgan": "^1.10.0",
+		"sequelize": "^6.37.3",
+		"sqlite3": "5.0.0"
+	},
+	"overrides": {
+		"glob": "^9.0.0",
+		"rimraf": "^4.0.0",
+		"gauge": "^5.0.0",
+		"are-we-there-yet": "^3.0.1",
+		"inflight": "^1.0.6"
+	}
+}
