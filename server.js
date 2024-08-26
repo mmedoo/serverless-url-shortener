@@ -19,8 +19,7 @@ for (let route of Object.values(routers)) {
 }
 
 
-// const port = process.env.PORT | 1234;
-const port = 8080;
+const port = process.env.PORT | 1234;
 app.listen(port,() => {
 	console.log(`Server is listening on http://localhost:${port}`);
 });

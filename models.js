@@ -6,21 +6,21 @@ require('pg');
 // Initializing connectoin
 async function newConnection(){
 	
-	const intance = new Sequelize(
+	const instance = new Sequelize(
 		process.env.DIRECT_URL,
 		{
 			logging: false,
-			freezeTableName: true,      // Model name == Table name
+			freezeTableName: true,  // Model name == Table name
 		},
 	);
 
 	try {
-		await intance.authenticate();
+		await instance.authenticate();
 	} catch (error) {
 		console.error("DB Connection failed: ", error);
 	}
 	
-	return intance;
+	return instance;
 }
 
 
@@ -52,7 +52,9 @@ async function newLinkModel(sequelize){
 	);
 
 	try {
-		await model.sync();
+		await model.sync({
+			force: process.env.FORCE_DROP || false
+		});
 	} catch (error) {
 		console.error("DB Model Sync Failed: ", error);
 	}
