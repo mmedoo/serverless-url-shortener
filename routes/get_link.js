@@ -4,6 +4,7 @@ var router = express.Router();
 
 
 router.get(/^(?!\/c\/?$).+/, async (req, res) => {
+	express().set('view engine', 'ejs');
 	const sequelize = await newConnection();
 
 	const link = await newLinkModel(sequelize);
