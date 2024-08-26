@@ -5,7 +5,6 @@ const routers = require('./routes/all_routers');
 const path = require("path");
 require('dotenv').config();
 
-
 app.set('view-engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -20,8 +19,8 @@ for (let route of Object.values(routers)) {
 
 
 // const port = process.env.PORT | 1234;
-const port = 1234;
-app.listen(port, () => {
+const port = 8080;
+app.listen(port,() => {
 	console.log(`Server is listening on http://localhost:${port}`);
 });
 

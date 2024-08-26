@@ -1,57 +1,56 @@
 const { Sequelize , DataTypes } = require("sequelize");
 require('dotenv').config();
-
+const pg = require('pg');
 
 // Initializing connectoin
 
-const sequelize = new Sequelize({
-	dialect: 'sqlite',
-	storage: "./database.db",
-	logging: false,
-	freezeTableName: true,      // Model name == Table name
-	timestamps: false
-});
-
-
-// Defining "links" model
-
-const link = sequelize.define(
-
-	// Model name
-	'links',
-
-	// Columns
-	{
-		key: {
-			type: DataTypes.STRING,
-			allowNull: false
+function newConnection(){
+	
+	return new Sequelize(
+		process.env.DIRECT_URL,
+		{
+			logging: false,
+			freezeTableName: true,      // Model name == Table name
+			dialectModule: pg,
+			pool: {
+				min: 0,
+				max: 5,
+				acquire: 30000,
+				idle: 5000
+			}
 		},
-		url: {
-			type: DataTypes.STRING,
-			allowNull: false
+	);
+}
+
+function newLinkModel(sequelize){
+
+	return sequelize.define(
+	
+		// Model name
+		'nodejs-urls',
+	
+		// Columns
+		{
+			key: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				primaryKey: true
+			},
+			url: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			}
+		},
+		{
+			timestamps: false,
 		}
-	}
-);
+	);
+}
 
-
-(async () => {
-	try {
-		
-		// Testing connection
-		await sequelize.authenticate();
-		
-		// Syncing table with database
-		await link.sync({
-			force: process.env.FORCE_DROP | false,         // Forcing drop table before creation
-		});
-
-	} catch (e) {
-		console.log(e);
-	}
-})();
 
 
 
 module.exports = {
-	link
+	newConnection,
+	newLinkModel
 };

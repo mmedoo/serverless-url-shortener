@@ -1,7 +1,10 @@
 const crypto = require('node:crypto')
-const { link } = require('../models');
+const { newConnection, newLinkModel } = require('../models');
 const express = require('express');
 var router = express.Router();
+
+
+
 
 
 function isValidUrl(url) {
@@ -17,8 +20,8 @@ function isValidUrl(url) {
 }
 
 
-async function checkifExist(url) {
-	const object = await link.findOne({
+async function checkifExist(url, model) {
+	const object = await model.findOne({
 		where: {
 			'url': url
 		}
@@ -28,11 +31,11 @@ async function checkifExist(url) {
 
 }
 
-async function createLink(url){
+async function createLink(url, model){
 	const key = crypto.randomBytes(3).toString('base64url');;
 	try {
 
-		await link.create({
+		await model.create({
 			'key': key,
 			'url': url
 		})
@@ -46,7 +49,12 @@ async function createLink(url){
 }
 
 router.get('/c', async (req, res) => {
-	
+	const sequelize = newConnection();
+
+	const model = newLinkModel(sequelize);
+
+	await model.sync();
+		
 	const url = new URL(req.url, "http://example.com")
 		.searchParams
 		.get('url');
@@ -55,12 +63,12 @@ router.get('/c', async (req, res) => {
 	if (isValidUrl(url)){
 		
 		var key;
-		const object = await checkifExist(url);
+		const object = await checkifExist(url, model);
 		
 		if (object !== null) {
 			key = object.key;
 		} else {
-			key = await createLink(url);
+			key = await createLink(url, model);
 		}
 		
 		if (!key) {
@@ -80,6 +88,8 @@ router.get('/c', async (req, res) => {
 		};
 	}
 
+	sequelize.close();
+	
 	res.render('index.ejs', response_params)
 });
 
