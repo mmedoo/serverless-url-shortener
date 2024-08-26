@@ -2,6 +2,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 require('dotenv').config();
 require('pg');
+
 // Initializing connectoin
 async function newConnection(){
 	
