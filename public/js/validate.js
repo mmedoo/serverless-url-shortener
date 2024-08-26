@@ -37,6 +37,8 @@ function isValidUrl(url) {
 
 const form = qs("form");
 
+const loader = qs(".loader");
+
 form[ael]("submit" , (e) => {
 
 	e.preventDefault();
@@ -49,6 +51,7 @@ form[ael]("submit" , (e) => {
 		if (!/^https?:\/\//i.test(url))
 			form.url.value = 'http://' + url;
 
+		loader.style.visibility = "visible"
 		form.submit();
 		
 	} else {
