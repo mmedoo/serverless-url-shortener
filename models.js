@@ -1,10 +1,9 @@
+// const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
+require('dotenv').config();
 
 // Initializing connectoin
-
 async function newConnection(){
-	const { Sequelize } = require("sequelize");
-	require('dotenv').config();
-	const pg = require('pg');
 	
 	const intance = new Sequelize(
 		process.env.DIRECT_URL,
@@ -23,8 +22,9 @@ async function newConnection(){
 	return intance;
 }
 
+
 async function newLinkModel(sequelize){
-	const { DataTypes } = require("sequelize");
+	// const { DataTypes } = require("sequelize");
 
 	const model = sequelize.define(
 	
@@ -43,6 +43,8 @@ async function newLinkModel(sequelize){
 				allowNull: false,
 			}
 		},
+
+		// options
 		{
 			timestamps: false,
 		}
