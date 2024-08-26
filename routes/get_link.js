@@ -1,7 +1,7 @@
 const { newConnection, newLinkModel } = require('../models');
 var express = require('express');
 var router = express.Router();
-// require('ejs');
+require('ejs');
 
 router.get(/^(?!\/c\/?$).+/, async (req, res) => {
 	const sequelize = await newConnection();
