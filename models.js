@@ -1,30 +1,32 @@
-const { Sequelize , DataTypes } = require("sequelize");
-require('dotenv').config();
-const pg = require('pg');
 
 // Initializing connectoin
 
-function newConnection(){
+async function newConnection(){
+	const { Sequelize } = require("sequelize");
+	require('dotenv').config();
+	const pg = require('pg');
 	
-	return new Sequelize(
+	const intance = new Sequelize(
 		process.env.DIRECT_URL,
 		{
 			logging: false,
 			freezeTableName: true,      // Model name == Table name
-			dialectModule: pg,
-			pool: {
-				min: 0,
-				max: 5,
-				acquire: 30000,
-				idle: 5000
-			}
 		},
 	);
+
+	try {
+		await intance.authenticate();
+	} catch (error) {
+		console.error("DB Connection failed: ", error);
+	}
+	
+	return intance;
 }
 
-function newLinkModel(sequelize){
+async function newLinkModel(sequelize){
+	const { DataTypes } = require("sequelize");
 
-	return sequelize.define(
+	const model = sequelize.define(
 	
 		// Model name
 		'nodejs-urls',
@@ -45,6 +47,15 @@ function newLinkModel(sequelize){
 			timestamps: false,
 		}
 	);
+
+	try {
+		await model.sync();
+	} catch (error) {
+		console.error("DB Model Sync Failed: ", error);
+	}
+
+
+	return model;
 }
 
 

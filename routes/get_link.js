@@ -4,9 +4,9 @@ var router = express.Router();
 
 
 router.get(/^(?!\/c\/?$).+/, async (req, res) => {
-	const sequelize = newConnection();
+	const sequelize = await newConnection();
 
-	const link = newLinkModel(sequelize);
+	const link = await newLinkModel(sequelize);
 	
 	const key = req.path.slice(1);
 	try {

@@ -49,11 +49,9 @@ async function createLink(url, model){
 }
 
 router.get('/c', async (req, res) => {
-	const sequelize = newConnection();
+	const sequelize = await newConnection();
 
-	const model = newLinkModel(sequelize);
-
-	await model.sync();
+	const model = await newLinkModel(sequelize);
 		
 	const url = new URL(req.url, "http://example.com")
 		.searchParams
