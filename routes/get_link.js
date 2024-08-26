@@ -1,10 +1,10 @@
 const { newConnection, newLinkModel } = require('../models');
 var express = require('express');
+express().set('view engine', 'ejs');
 var router = express.Router();
 
 
 router.get(/^(?!\/c\/?$).+/, async (req, res) => {
-	express().set('view engine', 'ejs');
 	const sequelize = await newConnection();
 
 	const link = await newLinkModel(sequelize);

@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
+express().set('view engine', 'ejs');
 
 router.get('/', (req, res) => {
-	express().set('view engine', 'ejs');
 	res.render('index.ejs', {
 		link: false,
 		snuck: false

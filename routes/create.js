@@ -1,6 +1,7 @@
 const crypto = require('node:crypto')
 const { newConnection, newLinkModel } = require('../models');
 const express = require('express');
+express().set('view engine', 'ejs');
 var router = express.Router();
 
 
@@ -49,8 +50,6 @@ async function createLink(url, model){
 }
 
 router.get('/c', async (req, res) => {
-	express().set('view engine', 'ejs');
-
 	const sequelize = await newConnection();
 
 	const model = await newLinkModel(sequelize);
