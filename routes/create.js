@@ -2,7 +2,7 @@ const crypto = require('node:crypto')
 const { newConnection, newLinkModel } = require('../models');
 const express = require('express');
 // express().set('view engine', 'ejs');
-require('ejs');
+// require('ejs');
 var router = express.Router();
 
 
