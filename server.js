@@ -19,10 +19,10 @@ for (let route of Object.values(routers)) {
 }
 
 
-const port = process.env.PORT | 1234;
-app.listen(port,() => {
-	console.log(`Server is listening on http://localhost:${port}`);
-});
+// const port = process.env.PORT | 1234;
+// app.listen(port,() => {
+	// console.log(`Server is listening on http://localhost:${port}`);
+// });
 
 
 module.exports = app;
