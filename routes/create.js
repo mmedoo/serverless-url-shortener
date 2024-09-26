@@ -22,7 +22,7 @@ function isValidUrl(url) {
 async function checkifExist(url, model) {
 	const object = await model.findOne({
 		where: {
-			'url': url
+			url
 		}
 	});
 
@@ -30,7 +30,7 @@ async function checkifExist(url, model) {
 
 }
 
-async function createLink(url, model){
+async function createLink(url, model) {
 	const key = crypto.randomBytes(3).toString('base64url');;
 	try {
 
@@ -38,9 +38,9 @@ async function createLink(url, model){
 			'key': key,
 			'url': url
 		})
-		
+
 		return key;
-		
+
 	} catch (err) {
 		console.log(err);
 		return null;
@@ -48,46 +48,43 @@ async function createLink(url, model){
 }
 
 router.get('/c', async (req, res) => {
-	const sequelize = await newConnection();
 
-	const model = await newLinkModel(sequelize);
-		
 	const url = new URL(req.url, "http://example.com")
 		.searchParams
 		.get('url');
 
-	var response_params = {};
-	if (isValidUrl(url)){
-		
-		var key;
-		const object = await checkifExist(url, model);
-		
-		if (object !== null) {
-			key = object.key;
-		} else {
-			key = await createLink(url, model);
-		}
-		
-		if (!key) {
-			res.send("An error has Occurred, Check logs.");
-			return;
-		}
+	if (!isValidUrl(url)) {
 
-		response_params = {
-			link: true,
-			key: key
-		}
-
-	} else {
-		response_params = {
+		res.render('index.ejs', {
 			link: false,
 			snuck: true
-		};
+		})
+
+		return;
+	}
+	
+	const sequelize = await newConnection();
+
+	const model = await newLinkModel(sequelize);
+
+	var key;
+	const object = await checkifExist(url, model);
+
+	if (object !== null) {
+		key = object.key;
+	} else {
+		key = await createLink(url, model);
 	}
 
-	sequelize.close();
-	
-	res.render('index.ejs', response_params)
+	if (!key) {
+		res.send("An error has Occurred, Check logs.");
+		return;
+	}
+
+	res.render('index.ejs', {
+		link: true,
+		key: key
+	})
 });
 
 
