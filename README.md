@@ -9,7 +9,7 @@
 
 # Serverless URL Shortener 🔗
 
-A simple URL shortener serverless application that allows users to shorten long URLs.
+A simple URL shortener serverless application that allows users to shorten long URLs. Available at [https://shrtnurl.vercel.app](https://shrtnurl.vercel.app/).
 
 
 
